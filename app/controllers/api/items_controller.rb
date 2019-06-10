@@ -1,4 +1,5 @@
 class Api::ItemsController < ApplicationController
+  before_action :set_item, only: [:update, :destroy]
 
   def index 
     # @items = Item.all 
@@ -25,18 +26,22 @@ class Api::ItemsController < ApplicationController
   # end
 
   def update
-    item = Item.find(params[:id])
-    item.update(complete: !item.complete)
-    render json: item 
+    @item.update(complete: !@item.complete)
+    render json: @item 
   end 
 
   def destroy 
-    Item.find(params[:id]).destroy
-    render json: { message: 'Item deleted' }
+    @item.destroy
+    render json: { message: "Item Deleted" }
   end 
 
   private 
   def item_params
-    params_require(:item).permit(:name, :complete)
+    params.require(:item).permit(:name, :complete)
+  end 
+
+  def set_item
+    #  needs to be an instance so we can access it in the update and destroy
+    @item = Item.find(params[:id])
   end 
 end
