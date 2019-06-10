@@ -4,7 +4,7 @@ class Api::ItemsController < ApplicationController
   def index 
     # @items = Item.all 
     # ^^^ rendering the index template
-    render json: Item.all 
+    render json: Item.all.order("created_at") 
     # specifies that we will render a json item from our api
   end 
 
